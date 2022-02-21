@@ -56,7 +56,10 @@ def register_user():
                 'message': 'Successfully registered. Login to receive an auth token.'
             }
 
-            return Response(json.dumps(responseObject), 200, mimetype="application/json")
+
+            resp = Response(json.dumps(responseObject), 200, mimetype="application/json")
+            resp.headers['X-PAYMENT-KEY'] = 'd39b8a6a-92e8-11ec-b909-0242ac120002'
+            return resp
         except jsonschema.exceptions.ValidationError as exc:
             return Response(error_message_helper(exc.message), 400, mimetype="application/json")
     else:

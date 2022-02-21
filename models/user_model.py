@@ -13,7 +13,6 @@ class User(db.Model):
     password = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
-
     books = relationship("Book", order_by=Book.id, back_populates="user")
 
     def __init__(self, username, password, email, admin=False):
@@ -51,10 +50,66 @@ class User(db.Model):
             return 'Invalid token. Please log in again.'
 
     def json(self):
-        return{'username': self.username, 'email': self.email}
+        return {
+                'username': self.username,
+                'email': self.email,
+                'cards': [
+                    {
+                        "issuer": "VISA",
+                        "cardNumber": "4716382599443362",
+                        "expiryMonth": "11",
+                        "expiryYear": "2026",
+                        "exp": "11/2026",
+                        "cvv": 406,
+                        "name": "Kayley Wunsch",
+                        "address": "9171 Judah Islands",
+                        "country": "Mayotte",
+                        "zipcode": "47074-8942"
+                    },
+                    {
+                        "issuer": "MasterCard",
+                        "cardNumber": "2720541105577140",
+                        "expiryMonth": "10",
+                        "expiryYear": "2023",
+                        "exp": "10/2023",
+                        "cvv": 141,
+                        "name": "Janiya O'Kon",
+                        "address": "201 Ortiz Pike",
+                        "country": "Niue",
+                        "zipcode": "51544-8202"
+                    }
+                ]
+            }
 
     def json_debug(self):
-        return{'username': self.username, 'password': self.password, 'email': self.email, 'admin': self.admin}
+        return{'username': self.username, 'password': self.password, 'email': self.email, 'admin': self.admin,
+                'cards': [
+                    {
+                        "issuer": "VISA",
+                        "cardNumber": "4716382599443362",
+                        "expiryMonth": "11",
+                        "expiryYear": "2026",
+                        "exp": "11/2026",
+                        "cvv": 406,
+                        "name": "Kayley Wunsch",
+                        "address": "9171 Judah Islands",
+                        "country": "Mayotte",
+                        "zipcode": "47074-8942"
+                    },
+                    {
+                        "issuer": "MasterCard",
+                        "cardNumber": "2720541105577140",
+                        "expiryMonth": "10",
+                        "expiryYear": "2023",
+                        "exp": "10/2023",
+                        "cvv": 141,
+                        "name": "Janiya O'Kon",
+                        "address": "201 Ortiz Pike",
+                        "country": "Niue",
+                        "zipcode": "51544-8202"
+                    }
+                ]
+            }
 
     @staticmethod
     def get_all_users():
